@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment and secrets (root only; templates may include .env.example)
+.env
+.env.local
+.env.*.local
+
+# IDE and OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs and debug
+*.log
+npm-debug.log*
+.npm
+
+# Test and coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# Lockfiles (optional: remove if you want to commit package-lock.json)
+# package-lock.json
