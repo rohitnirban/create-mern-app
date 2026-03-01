@@ -1,6 +1,8 @@
 # create-mern-app
 
-Scaffold production-ready **MERN** (MongoDB, Express, React, Node.js) projects with an interactive CLI.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+Scaffold production-ready **MERN** (MongoDB, Express, React, Node.js) projects with an interactive CLI. Open source and welcoming contributions.
 
 ## Features
 
@@ -37,8 +39,8 @@ You can omit the project name to be prompted. The CLI will ask for:
 ## Development
 
 ```bash
-# Clone the repo (replace YOUR_USERNAME with your GitHub username)
-git clone https://github.com/YOUR_USERNAME/create-mern-app.git
+# Clone the repo (replace rohitnirban with your GitHub username)
+git clone https://github.com/rohitnirban/create-mern-app.git
 cd create-mern-app
 
 # Install dependencies
@@ -60,6 +62,10 @@ npm test
 - **Frontend-only**: Single `frontend/` (Vite + React).
 - **Backend-only**: Single `backend/` (Express + MongoDB).
 
+## Contributing
+
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. By participating, you agree to our [Code of Conduct](CODE_OF_CONDUCT.md).
+
 ## License
 
-MIT
+MIT - see [LICENSE](LICENSE) for details.

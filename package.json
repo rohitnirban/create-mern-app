@@ -2,12 +2,14 @@
   "name": "create-mern-app",
   "version": "1.0.0",
   "description": "Scaffold production-ready MERN (MongoDB, Express, React, Node.js) projects",
+  "license": "MIT",
+  "keywords": ["mern", "create-app", "scaffold", "react", "express", "mongodb", "cli", "boilerplate"],
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOUR_USERNAME/create-mern-app.git"
+    "url": "https://github.com/rohitnirban/create-mern-app.git"
   },
-  "homepage": "https://github.com/YOUR_USERNAME/create-mern-app#readme",
-  "bugs": "https://github.com/YOUR_USERNAME/create-mern-app/issues",
+  "homepage": "https://github.com/rohitnirban/create-mern-app#readme",
+  "bugs": "https://github.com/rohitnirban/create-mern-app/issues",
   "type": "module",
   "bin": {
     "create-mern-app": "./dist/index.js"
