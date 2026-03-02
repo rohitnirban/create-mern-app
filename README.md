@@ -6,11 +6,47 @@ Scaffold production-ready **MERN** (MongoDB, Express, React, Node.js) projects w
 
 ## Features
 
+### CLI options
+
 - **Stack options**: Fullstack, frontend-only, or backend-only
 - **Language**: TypeScript (recommended) or JavaScript
 - **Package managers**: npm, pnpm, yarn, or bun
 - **Deployment**: Optional Vercel config (`vercel.json`)
 - **UI**: Optional [shadcn/ui](https://ui.shadcn.com/) components (Button, Card, Input, Dialog, etc.)
+
+### What’s included in generated apps
+
+#### Security & auth
+
+- **CSRF protection** — `X-CSRF-Token` header validated against cookie on mutations (POST/PUT/PATCH/DELETE); axios interceptor auto-attaches token
+- **JWT auth** — access + refresh tokens in HTTP-only cookies; automatic token refresh on 401 with request queue
+- **Rate limiting** — login (10/15min), register (5/15min), refresh throttled; express-rate-limit
+- **Request validation** — Zod schemas on register, login, create post; validated before handlers
+- **Role-based access** — `authenticate` + `authorize` middleware; roles: `user`, `manager`, `admin`
+- **Helmet** — secure HTTP headers
+- **CORS** — configurable origin, credentials supported
+
+#### API & routes
+
+- **Auth routes** — `POST /auth/register`, `POST /auth/login`, `POST /auth/logout`, `POST /auth/refresh`, `GET /auth/me`
+- **Post routes** — `GET /posts` (paginated), `GET /posts/admin` (admin-only, paginated), `GET /posts/:id`, `POST /posts` (manager/admin), `POST /posts/seed` (admin, sample data)
+- **Health routes** — `GET /health` (liveness), `GET /health/ready` (readiness + MongoDB check)
+- **Consistent API shape** — `ApiSuccessResponse<T>`, `ApiErrorResponse`; `successResponse()` / `errorResponse()` helpers
+
+#### Pagination & types (backend)
+
+- **Paginated types** — `PaginatedData<T>`, `PaginationMeta` (page, limit, totalItems, totalPages, hasNextPage, hasPrevPage)
+- **Query helpers** — `getPaginationParams()` for `?page=&limit=` with defaults and `maxLimit`
+- **Reusable** — works for any resource (posts, users, etc.)
+
+#### Frontend
+
+- **Route protection** — Next.js middleware guards `/dashboard`, `/posts`; redirects unauthenticated users to `/login`
+- **Auth-aware routing** — redirects logged-in users away from `/login`, `/register`
+- **React Query (TanStack Query)** — `useQuery`, `useMutation`, `useQueryClient`; centralized `queryKeys`
+- **Paginated data table** — TanStack Table + `usePaginatedQuery`; server-side pagination, page size selector (10/20/50/100), manual pagination
+- **Generic `usePaginatedQuery`** — fetcher returns `{ items, pagination }`; caches by `(queryKeyPrefix + params)` per page
+- **Typed API** — `ApiSuccessResponse`, `Post`, `User`, `PaginationMeta`, `PaginatedPostsResponse`; shared types across app
 
 ## Requirements
 
@@ -21,10 +57,10 @@ Scaffold production-ready **MERN** (MongoDB, Express, React, Node.js) projects w
 
 ```bash
 # Using npx (no install)
-npx create-mern-app my-app
+npx @rohitnirban/create-mern-app my-app
 
 # Or with npm create
-npm create mern-app@latest my-app
+npm create @rohitnirban/create-mern-app@latest my-app
 ```
 
 You can omit the project name to be prompted. The CLI will ask for:
@@ -58,8 +94,8 @@ npm test
 
 ## Project structure (generated app)
 
-- **Fullstack**: Monorepo with `backend/` (Express + MongoDB) and `frontend/` (Vite + React). Root `package.json` has `dev`, `dev:backend`, `dev:frontend`, and `build` scripts.
-- **Frontend-only**: Single `frontend/` (Vite + React).
+- **Fullstack**: Monorepo with `backend/` (Express + MongoDB) and `frontend/` (Next.js + React). Root `package.json` has `dev`, `dev:backend`, `dev:frontend`, and `build` scripts.
+- **Frontend-only**: Single `frontend/` (Next.js + React).
 - **Backend-only**: Single `backend/` (Express + MongoDB).
 
 ## Contributing
