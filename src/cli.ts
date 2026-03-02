@@ -163,6 +163,19 @@ export async function run(): Promise<void> {
   }
   const deployment = deploymentResult;
 
+  let s3Upload = false;
+  if (stack === 'backend-only' || stack === 'fullstack') {
+    const s3Result = await confirm({
+      message: 'Add AWS S3 file upload? (Multer + S3, scalable uploads)',
+      initialValue: false,
+    });
+    if (isCancel(s3Result)) {
+      cancel('Operation cancelled.');
+      process.exit(0);
+    }
+    s3Upload = s3Result;
+  }
+
   let shadcn = false;
   let shadcnComponents: string[] = [];
 
@@ -200,6 +213,7 @@ export async function run(): Promise<void> {
     deployment,
     shadcn,
     shadcnComponents,
+    s3Upload,
   };
 
   const outputDir = process.cwd();

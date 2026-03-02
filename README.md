@@ -12,6 +12,7 @@ Scaffold production-ready **MERN** (MongoDB, Express, React, Node.js) projects w
 - **Language**: TypeScript (recommended) or JavaScript
 - **Package managers**: npm, pnpm, yarn, or bun
 - **Deployment**: Optional Vercel config (`vercel.json`)
+- **AWS S3 file upload**: Multer + S3 for scalable file uploads (backend/fullstack only)
 - **UI**: Optional [shadcn/ui](https://ui.shadcn.com/) components (Button, Card, Input, Dialog, etc.)
 
 ### What’s included in generated apps
@@ -31,7 +32,16 @@ Scaffold production-ready **MERN** (MongoDB, Express, React, Node.js) projects w
 - **Auth routes** — `POST /auth/register`, `POST /auth/login`, `POST /auth/logout`, `POST /auth/refresh`, `GET /auth/me`
 - **Post routes** — `GET /posts` (paginated), `GET /posts/admin` (admin-only, paginated), `GET /posts/:id`, `POST /posts` (manager/admin), `POST /posts/seed` (admin, sample data)
 - **Health routes** — `GET /health` (liveness), `GET /health/ready` (readiness + MongoDB check)
+- **Upload route** (optional, when S3 enabled) — `POST /api/v1/upload` with Multer; authenticated + CSRF-protected
 - **Consistent API shape** — `ApiSuccessResponse<T>`, `ApiErrorResponse`; `successResponse()` / `errorResponse()` helpers
+
+#### AWS S3 file upload (optional)
+
+- **Multer** — memory storage, `.single('file')`, 10 MB limit
+- **AWS S3** — `@aws-sdk/client-s3`; uploads to `uploads/{userId}/{uuid}{ext}`
+- **Allowed types** — images (jpeg, png, gif, webp), PDF
+- **Scalable** — no local disk; streams buffer to S3; works with any deployment (Vercel, etc.)
+- **Env vars** — `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_S3_BUCKET`
 
 #### Pagination & types (backend)
 
@@ -70,6 +80,7 @@ You can omit the project name to be prompted. The CLI will ask for:
 - Language (TypeScript / JavaScript)
 - Package manager(s)
 - Deployment (Vercel / custom)
+- AWS S3 file upload (yes/no, backend/fullstack only)
 - Shadcn/ui (yes/no and component selection for frontend)
 
 ## Development
@@ -97,6 +108,8 @@ npm test
 - **Fullstack**: Monorepo with `backend/` (Express + MongoDB) and `frontend/` (Next.js + React). Root `package.json` has `dev`, `dev:backend`, `dev:frontend`, and `build` scripts.
 - **Frontend-only**: Single `frontend/` (Next.js + React).
 - **Backend-only**: Single `backend/` (Express + MongoDB).
+
+When S3 upload is enabled, backend gets `src/config/s3.ts`, `src/routes/upload.routes.ts`, `src/services/upload.service.ts`, `src/middleware/multerUpload.ts`, and `POST /api/v1/upload` (auth + CSRF required). Add `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_S3_BUCKET` to `.env`.
 
 ## Contributing
 

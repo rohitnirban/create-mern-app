@@ -1,6 +1,6 @@
 {
   "name": "@rohitnirban/create-mern-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Scaffold production-ready MERN (MongoDB, Express, React, Node.js) projects",
   "license": "MIT",
   "keywords": [

@@ -5,6 +5,7 @@ import { generateBackend } from './generators/backend.js';
 import { generateFrontend } from './generators/frontend.js';
 import { generateVercel } from './generators/vercel.js';
 import { generateShadcn } from './generators/shadcn.js';
+import { generateS3 } from './generators/s3.js';
 import { installDeps } from './utils/installDeps.js';
 import { log } from './utils/logger.js';
 
@@ -62,6 +63,9 @@ export async function scaffold(options: CLIOptions, outputDir: string): Promise<
     }
     if (options.shadcn && (options.stack === 'frontend-only' || options.stack === 'fullstack')) {
       await generateShadcn(options, outputDir);
+    }
+    if (options.s3Upload && (options.stack === 'backend-only' || options.stack === 'fullstack')) {
+      await generateS3(options, outputDir);
     }
     if (options.stack === 'fullstack') {
       await createRootPackageJson(options, projectDir);
@@ -133,6 +137,9 @@ export function printSuccess(options: CLIOptions, _outputDir: string): void {
     console.log('  # Configure environment');
     console.log('  cp backend/.env.example backend/.env');
     console.log('  # Edit backend/.env with your MongoDB URI');
+    if (options.s3Upload) {
+      console.log('  # For S3 uploads: set AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_S3_BUCKET');
+    }
   }
 
   if (options.shadcn && options.shadcnComponents.length > 0) {

@@ -12,4 +12,5 @@ export interface CLIOptions {
   deployment: Deployment;
   shadcn: boolean;
   shadcnComponents: string[];
+  s3Upload: boolean;
 }

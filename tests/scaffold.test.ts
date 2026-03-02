@@ -15,6 +15,7 @@ const fullstackOptions: CLIOptions = {
   deployment: 'vercel',
   shadcn: true,
   shadcnComponents: ['button', 'card'],
+  s3Upload: false,
 };
 
 describe('scaffold (e2e)', () => {
@@ -48,5 +49,36 @@ describe('scaffold (e2e)', () => {
 
     const frontendPkg = JSON.parse(await fs.readFile(path.join(projectDir, 'frontend', 'package.json'), 'utf8'));
     expect(frontendPkg.name).toBe('e2e-fullstack-frontend');
+  });
+
+  it('creates backend with S3 upload when s3Upload is true', async () => {
+    const options: CLIOptions = {
+      ...fullstackOptions,
+      projectName: 'e2e-s3',
+      s3Upload: true,
+    };
+    await scaffold(options, tmpDir);
+
+    const projectDir = path.join(tmpDir, 'e2e-s3');
+    const backendDir = path.join(projectDir, 'backend');
+
+    expect(await fs.pathExists(path.join(backendDir, 'src', 'config', 's3.ts'))).toBe(true);
+    expect(await fs.pathExists(path.join(backendDir, 'src', 'routes', 'upload.routes.ts'))).toBe(true);
+    expect(await fs.pathExists(path.join(backendDir, 'src', 'services', 'upload.service.ts'))).toBe(true);
+    expect(await fs.pathExists(path.join(backendDir, 'src', 'middleware', 'multerUpload.ts'))).toBe(true);
+    expect(await fs.pathExists(path.join(backendDir, 'src', 'controllers', 'upload.controller.ts'))).toBe(true);
+
+    const backendPkg = JSON.parse(await fs.readFile(path.join(backendDir, 'package.json'), 'utf8'));
+    expect(backendPkg.dependencies.multer).toBeDefined();
+    expect(backendPkg.dependencies['@aws-sdk/client-s3']).toBeDefined();
+    expect(backendPkg.devDependencies['@types/multer']).toBeDefined();
+
+    const envExample = await fs.readFile(path.join(backendDir, '.env.example'), 'utf8');
+    expect(envExample).toContain('AWS_REGION');
+    expect(envExample).toContain('AWS_S3_BUCKET');
+
+    const appContent = await fs.readFile(path.join(backendDir, 'src', 'app.ts'), 'utf8');
+    expect(appContent).toContain('upload.routes');
+    expect(appContent).toContain('/api/v1/upload');
   });
 });
