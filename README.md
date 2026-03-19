@@ -1,4 +1,4 @@
-# create-mern-app
+# @rohitnirban/create-mern-app
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
